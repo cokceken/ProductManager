@@ -11,6 +11,9 @@
     <RootNamespace>ProductManager</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="NPOI" Version="2.2.1" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ProductManager.Core\ProductManager.Core.csproj" />
   </ItemGroup>
 </Project>

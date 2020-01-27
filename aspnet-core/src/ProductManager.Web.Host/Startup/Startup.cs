@@ -48,8 +48,6 @@ namespace ProductManager.Web.Host.Startup
                 };
             });
 
-
-
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
 
