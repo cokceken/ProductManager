@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using ProductManager.Controllers;
-using ProductManager.Net.MimeTypes;
 using ProductManager.Web.Host.Dto;
 
 namespace ProductManager.Web.Host.Controllers
@@ -27,11 +26,10 @@ namespace ProductManager.Web.Host.Controllers
             }
 
             var extension = MimeTypes.MimeTypeMap.GetExtension(request.File.ContentType);
-            Guid fileId;
             string fileName;
             do
             {
-                fileId = Guid.NewGuid();
+                var fileId = Guid.NewGuid();
                 fileName = $"{fileId}{extension}";
             } while (System.IO.File.Exists(fileName));
             

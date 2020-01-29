@@ -9,9 +9,11 @@ import { EntityDto } from '../../services/dto/entityDto';
 import { L } from '../../lib/abpUtility';
 import Stores from '../../stores/storeIdentifier';
 import UserStore from '../../stores/userStore';
+import ProductStore from '../../stores/productStore';
 
 export interface IUserProps {
   userStore: UserStore;
+  productStore: ProductStore
 }
 
 export interface IUserState {
@@ -26,6 +28,7 @@ const confirm = Modal.confirm;
 const Search = Input.Search;
 
 @inject(Stores.UserStore)
+@inject(Stores.ProductStore)
 @observer
 class User extends AppComponentBase<IUserProps, IUserState> {
   formRef: any;
@@ -44,6 +47,8 @@ class User extends AppComponentBase<IUserProps, IUserState> {
 
   async getAll() {
     await this.props.userStore.getAll({ maxResultCount: this.state.maxResultCount, skipCount: this.state.skipCount, keyword: this.state.filter });
+    await this.props.productStore.getAll({keyword: 'code', maxResultCount: 10, skipCount: 0});
+    console.log(this.props.productStore.products.items);
   }
 
   handleTableChange = (pagination: any) => {
