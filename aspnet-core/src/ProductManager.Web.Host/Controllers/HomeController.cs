@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Abp;
@@ -6,37 +5,21 @@ using Abp.Extensions;
 using Abp.Notifications;
 using Abp.Timing;
 using ProductManager.Controllers;
-using ProductManager.Products;
-using ProductManager.Products.Dto;
-using ProductManager.WebHelpers;
 
 namespace ProductManager.Web.Host.Controllers
 {
     public class HomeController : ProductManagerControllerBase
     {
         private readonly INotificationPublisher _notificationPublisher;
-        private readonly IProductAppService _productAppService;
-        private readonly IDataExport _dataExport;
 
-        public HomeController(INotificationPublisher notificationPublisher, IProductAppService productAppService, IDataExport dataExport)
+        public HomeController(INotificationPublisher notificationPublisher)
         {
             _notificationPublisher = notificationPublisher;
-            _productAppService = productAppService;
-            _dataExport = dataExport;
         }
 
         public IActionResult Index()
         {
             return Redirect("/swagger");
-        }
-
-        public async Task<IActionResult> ExportToExcel(PagedProductResultRequestDto input)
-        {
-            var items = await _productAppService.GetAllAsync(input);
-            var bytes = await _dataExport.ExportExcel(items.Items, "sheet");
-
-            return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                $"Export_{DateTime.Now:g}.xlsx");
         }
 
         /// <summary>
