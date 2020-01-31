@@ -3,10 +3,10 @@ import { action, observable } from 'mobx';
 import { EntityDto } from '../services/dto/entityDto';
 import { PagedResultDto } from '../services/dto/pagedResultDto';
 import ProductDto from '../services/product/dto/productDto';
-import ProductEditModel from '../models/Products/roleEditModel';
 import productService from '../services/product/productService';
 import productDto from '../services/product/dto/productDto';
 import { PagedProductRequestDto } from '../services/product/dto/pagedProductRequestDto';
+import ProductEditModel from '../models/Products/productEditModel';
 
 class ProductStore {
   @observable products!: PagedResultDto<ProductDto>;
@@ -56,6 +56,10 @@ class ProductStore {
   async getAll(pagedFilterAndSortedRequest: PagedProductRequestDto) {
     let result = await productService.getAll(pagedFilterAndSortedRequest);
     this.products = result;
+  }
+
+  async getAllAsExcel() {
+    return await productService.getAllAsExcel();
   }
 }
 

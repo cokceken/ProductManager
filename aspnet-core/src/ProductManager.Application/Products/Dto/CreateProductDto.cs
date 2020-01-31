@@ -6,7 +6,7 @@ using ProductManager.Entities;
 namespace ProductManager.Products.Dto
 {
     [AutoMapTo(typeof(Product))]
-    public class CrateProductDto : IShouldNormalize
+    public class CreateProductDto
     {
         [Required] public string Code { get; set; }
         [Required] public string Name { get; set; }
@@ -16,9 +16,5 @@ namespace ProductManager.Products.Dto
         [RegularExpression(@"^(((\d{1,3})(,\d{3})*)|(\d+))(.\d+)?$")]
         [Range(0, int.MaxValue)]
         public decimal Price { get; set; }
-        public void Normalize()
-        {
-
-        }
     }
 }

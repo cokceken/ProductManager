@@ -22,12 +22,16 @@ class ProductService {
 
   public async get(entityDto: EntityDto) : Promise<ProductDto> {
     let result = await http.get('api/services/app/Product/Get', { params: entityDto });
-    return result.data;
+    return result.data.result;
   }
 
   public async getAll(pagedFilterAndSortedRequest: PagedProductRequestDto): Promise<PagedResultDto<ProductDto>> {
     let result = await http.get('api/services/app/Product/GetAll', { params: pagedFilterAndSortedRequest });
     return result.data.result;
+  }
+
+  public async getAllAsExcel() {
+    return await http.get('export/ExportProductsToExcel', { responseType: 'blob'});
   }
 }
 

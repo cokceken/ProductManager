@@ -76,6 +76,15 @@ export const appRouters: any = [
     component: LoadableComponent(() => import('../../scenes/About')),
   },
   {
+    path: '/products',
+    permission: '',
+    title: 'Products',
+    name: 'product',
+    icon: 'product',
+    showInMenu: true,
+    component: LoadableComponent(() => import('../../scenes/Products')),
+  },
+  {
     path: '/logout',
     permission: '',
     title: 'Logout',

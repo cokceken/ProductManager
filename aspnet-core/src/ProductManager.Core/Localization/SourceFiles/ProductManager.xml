@@ -105,5 +105,16 @@
     <text name="RoleDeleteWarningMessage">Role {0} will be deleted and unassigned from all assigned users.</text>
     <text name="TenantDeleteWarningMessage">Tenant {0} will be deleted.</text>
     <text name="ProductPriceShouldBeDecimal">Price should be in decimal format</text>
+    <text name="ProductCode">Code</text>
+    <text name="ProductName">Name</text>
+    <text name="ProductPhoto">Photo</text>
+    <text name="ProductPrice">Price</text>
+    <text name="Code">Code</text>
+    <text name="Photo">Photo</text>
+    <text name="Price">Price</text>
+    <text name="Product">Product</text>
+    <text name="PriceConfirmLabel">Price is too high, do you want to continue?</text>
+    <text name="ProductCodeDuplicate">Product code already exists!</text>
+    <text name="ActionError">Action failed</text>
   </texts>
 </localizationDictionary>

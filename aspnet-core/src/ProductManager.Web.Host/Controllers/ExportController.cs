@@ -20,9 +20,9 @@ namespace ProductManager.Web.Host.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ExportProductSearchToExcel(PagedProductResultRequestDto input)
+        public async Task<IActionResult> ExportProductsToExcel()
         {
-            var items = await _productAppService.GetAllAsync(input);
+            var items = await _productAppService.GetAllAsync(new PagedProductResultRequestDto());
             var bytes = await _dataExport.ExportExcel(items.Items, "sheet");
 
             return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

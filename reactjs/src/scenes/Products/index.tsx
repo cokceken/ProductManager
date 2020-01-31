@@ -1,41 +1,45 @@
 import * as React from 'react';
 
-import { Button, Card, Col, Dropdown, Input, Menu, Modal, Row, Table, Tag } from 'antd';
+import { Button, Card, Col, Dropdown, Input, Menu, Modal, Row, Table } from 'antd';
 import { inject, observer } from 'mobx-react';
 
 import AppComponentBase from '../../components/AppComponentBase';
-import CreateOrUpdateUser from './components/createOrUpdateUser';
 import { EntityDto } from '../../services/dto/entityDto';
 import { L } from '../../lib/abpUtility';
 import Stores from '../../stores/storeIdentifier';
-import UserStore from '../../stores/userStore';
+import './index.less';
+import ProductStore from '../../stores/productStore';
+import CreateOrUpdateProduct from './components/createOrUpdateProduct';
+import { saveAs } from 'file-saver';
 
-export interface IUserProps {
-  userStore: UserStore;
+export interface IProductProps {
+  productStore: ProductStore
 }
 
-export interface IUserState {
+export interface IProductState {
   modalVisible: boolean;
   maxResultCount: number;
   skipCount: number;
-  userId: number;
+  productId: number;
+  productPhotoUrl: string;
   filter: string;
 }
 
 const confirm = Modal.confirm;
 const Search = Input.Search;
 
-@inject(Stores.UserStore)
+@inject(Stores.ProductStore)
 @observer
-class User extends AppComponentBase<IUserProps, IUserState> {
+class Product extends AppComponentBase<IProductProps, IProductState> {
   formRef: any;
 
   state = {
     modalVisible: false,
     maxResultCount: 10,
     skipCount: 0,
-    userId: 0,
+    productId: 0,
     filter: '',
+    productPhotoUrl: '',
   };
 
   async componentDidMount() {
@@ -43,11 +47,17 @@ class User extends AppComponentBase<IUserProps, IUserState> {
   }
 
   async getAll() {
-    await this.props.userStore.getAll({ maxResultCount: this.state.maxResultCount, skipCount: this.state.skipCount, keyword: this.state.filter });
+    await this.props.productStore.getAll({
+      maxResultCount: this.state.maxResultCount,
+      skipCount: this.state.skipCount,
+      keyword: this.state.filter,
+    });
   }
 
   handleTableChange = (pagination: any) => {
-    this.setState({ skipCount: (pagination.current - 1) * this.state.maxResultCount! }, async () => await this.getAll());
+    this.setState({
+      skipCount: (pagination.current - 1) * this.state.maxResultCount!,
+    }, async () => await this.getAll());
   };
 
   Modal = () => {
@@ -58,17 +68,15 @@ class User extends AppComponentBase<IUserProps, IUserState> {
 
   async createOrUpdateModalOpen(entityDto: EntityDto) {
     if (entityDto.id === 0) {
-      await this.props.userStore.createUser();
-      await this.props.userStore.getRoles();
+      await this.props.productStore.resetEditModel();
     } else {
-      await this.props.userStore.get(entityDto);
-      await this.props.userStore.getRoles();
+      await this.props.productStore.get(entityDto);
     }
 
-    this.setState({ userId: entityDto.id });
+    await this.setState({ productId: entityDto.id, productPhotoUrl: this.props.productStore.editModel.product.photo });
     this.Modal();
 
-    this.formRef.props.form.setFieldsValue({ ...this.props.userStore.editUser, roleNames: this.props.userStore.editUser.roleNames });
+    this.formRef.props.form.setFieldsValue({ ...this.props.productStore.editModel.product });
   }
 
   delete(input: EntityDto) {
@@ -76,7 +84,7 @@ class User extends AppComponentBase<IUserProps, IUserState> {
     confirm({
       title: 'Do you Want to delete these items?',
       onOk() {
-        self.props.userStore.delete(input);
+        self.props.productStore.delete(input);
       },
       onCancel() {
         console.log('Cancel');
@@ -91,10 +99,10 @@ class User extends AppComponentBase<IUserProps, IUserState> {
       if (err) {
         return;
       } else {
-        if (this.state.userId === 0) {
-          await this.props.userStore.create(values);
+        if (this.state.productId === 0) {
+          await this.props.productStore.create(values);
         } else {
-          await this.props.userStore.update({ id: this.state.userId, ...values });
+          await this.props.productStore.update({ id: this.state.productId, ...values });
         }
       }
 
@@ -112,18 +120,45 @@ class User extends AppComponentBase<IUserProps, IUserState> {
     this.setState({ filter: value }, async () => await this.getAll());
   };
 
+  handleExcelSearch = () => {
+    this.props.productStore.getAllAsExcel().then(x => {
+      let filename = 'result.xlsx';
+      let url = window.URL
+        .createObjectURL(new Blob([x.data]));
+      saveAs(url, filename);
+    });
+  };
+
   public render() {
-    const { users } = this.props.userStore;
+    const { products } = this.props.productStore;
     const columns = [
-      { title: L('UserName'), dataIndex: 'userName', key: 'userName', width: 150, render: (text: string) => <div>{text}</div> },
-      { title: L('FullName'), dataIndex: 'name', key: 'name', width: 150, render: (text: string) => <div>{text}</div> },
-      { title: L('EmailAddress'), dataIndex: 'emailAddress', key: 'emailAddress', width: 150, render: (text: string) => <div>{text}</div> },
       {
-        title: L('IsActive'),
-        dataIndex: 'isActive',
-        key: 'isActive',
+        title: L('ProductCode'),
+        dataIndex: 'code',
+        key: 'code',
         width: 150,
-        render: (text: boolean) => (text === true ? <Tag color="#2db7f5">{L('Yes')}</Tag> : <Tag color="red">{L('No')}</Tag>),
+        render: (text: string) => <div>{text}</div>,
+      },
+      {
+        title: L('ProductName'),
+        dataIndex: 'name',
+        key: 'name',
+        width: 150,
+        render: (text: string) => <div>{text}</div>,
+      },
+      {
+        title: L('ProductPhoto'),
+        dataIndex: 'photo',
+        key: 'photo',
+        width: 150,
+        render: (text: string) => <img src={text} style={{ height: '100%' }}/>,
+      },
+      {
+        title: L('ProductPrice'),
+        dataIndex: 'price',
+        key: 'price',
+        width: 150,
+        render: (text: number) => <div>{text}</div>,
       },
       {
         title: L('Actions'),
@@ -161,7 +196,7 @@ class User extends AppComponentBase<IUserProps, IUserState> {
             xxl={{ span: 2, offset: 0 }}
           >
             {' '}
-            <h2>{L('Users')}</h2>
+            <h2>{L('Products')}</h2>
           </Col>
           <Col
             xs={{ span: 14, offset: 0 }}
@@ -171,12 +206,14 @@ class User extends AppComponentBase<IUserProps, IUserState> {
             xl={{ span: 1, offset: 21 }}
             xxl={{ span: 1, offset: 21 }}
           >
-            <Button type="primary" shape="circle" icon="plus" onClick={() => this.createOrUpdateModalOpen({ id: 0 })} />
+            <Button type="primary" shape="circle" icon="plus" onClick={() => this.createOrUpdateModalOpen({ id: 0 })}/>
+            <Button type="danger" shape="circle-outline" icon="file-excel" onClick={() => this.handleExcelSearch()}/>
           </Col>
         </Row>
+
         <Row>
           <Col sm={{ span: 10, offset: 0 }}>
-            <Search placeholder={this.L('Filter')} onSearch={this.handleSearch} />
+            <Search placeholder={this.L('Filter')} onSearch={this.handleSearch}/>
           </Col>
         </Row>
         <Row style={{ marginTop: 20 }}>
@@ -193,14 +230,14 @@ class User extends AppComponentBase<IUserProps, IUserState> {
               size={'default'}
               bordered={true}
               columns={columns}
-              pagination={{ pageSize: 10, total: users === undefined ? 0 : users.totalCount, defaultCurrent: 1 }}
-              loading={users === undefined ? true : false}
-              dataSource={users === undefined ? [] : users.items}
+              pagination={{ pageSize: 10, total: products === undefined ? 0 : products.totalCount, defaultCurrent: 1 }}
+              loading={products === undefined}
+              dataSource={products === undefined ? [] : products.items}
               onChange={this.handleTableChange}
             />
           </Col>
         </Row>
-        <CreateOrUpdateUser
+        <CreateOrUpdateProduct
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.modalVisible}
           onCancel={() =>
@@ -208,13 +245,25 @@ class User extends AppComponentBase<IUserProps, IUserState> {
               modalVisible: false,
             })
           }
-          modalType={this.state.userId === 0 ? 'edit' : 'create'}
+          modalType={this.state.productId === 0 ? 'edit' : 'create'}
           onCreate={this.handleCreate}
-          roles={this.props.userStore.roles}
+          productPhotoUrl={this.state.productPhotoUrl}
+          priceConfirm={(callback: any) => {
+            confirm({
+              title: L('PriceConfirmLabel'),
+              onOk() {
+                callback();
+              },
+              onCancel() {
+                return;
+              },
+            });
+          }}
+          productPhotoChanged={value => this.setState({ productPhotoUrl: value })}
         />
       </Card>
     );
   }
 }
 
-export default User;
+export default Product;

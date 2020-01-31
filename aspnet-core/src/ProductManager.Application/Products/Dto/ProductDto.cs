@@ -5,7 +5,7 @@ using ProductManager.Entities;
 
 namespace ProductManager.Products.Dto
 {
-    [AutoMapFrom(typeof(Product))]
+    [AutoMap(typeof(Product))]
     public class ProductDto : EntityDto
     {
         [Required] public string Code { get; set; }
