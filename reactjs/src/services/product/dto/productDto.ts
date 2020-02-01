@@ -12,4 +12,5 @@ export default class ProductDto extends EntityDto {
   lastModifierUserId!: number;
   creationTime!: Date;
   creatorUserId!: number;
+  id!: number;
 }

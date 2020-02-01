@@ -11,6 +11,7 @@ import './index.less';
 import ProductStore from '../../stores/productStore';
 import CreateOrUpdateProduct from './components/createOrUpdateProduct';
 import { saveAs } from 'file-saver';
+import productDto from '../../services/product/dto/productDto';
 
 export interface IProductProps {
   productStore: ProductStore
@@ -44,6 +45,18 @@ class Product extends AppComponentBase<IProductProps, IProductState> {
 
   async componentDidMount() {
     await this.getAll();
+    await this.registerEvents();
+  }
+
+  async registerEvents(){
+    // @ts-ignore
+    abp.event.on('productData.new', (data: productDto) => {
+        this.props.productStore.putFromEvent(data);
+    });
+    // @ts-ignore
+    abp.event.on('productData.delete', (data: productDto) => {
+      this.props.productStore.deleteFromEvent(data);
+    });
   }
 
   async getAll() {
@@ -130,7 +143,7 @@ class Product extends AppComponentBase<IProductProps, IProductState> {
   };
 
   public render() {
-    const { products } = this.props.productStore;
+    const { products, counter } = this.props.productStore;
     const columns = [
       {
         title: L('ProductCode'),
@@ -212,6 +225,7 @@ class Product extends AppComponentBase<IProductProps, IProductState> {
     return (
       <Card>
         <Row>
+          <div hidden={true}>{counter}</div>
           <Col
             xs={{ span: 4, offset: 0 }}
             sm={{ span: 4, offset: 0 }}

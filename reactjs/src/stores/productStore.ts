@@ -11,6 +11,7 @@ import ProductEditModel from '../models/Products/productEditModel';
 class ProductStore {
   @observable products!: PagedResultDto<ProductDto>;
   @observable editModel: ProductEditModel = new ProductEditModel();
+  @observable counter: number = 0;
 
   @action
   async create(createInput: productDto) {
@@ -25,8 +26,9 @@ class ProductStore {
         name: '',
         photo: '',
         price: 0,
-        id: 0
-      }};
+        id: 0,
+      },
+    };
   }
 
   @action
@@ -60,6 +62,33 @@ class ProductStore {
 
   async getAllAsExcel() {
     return await productService.getAllAsExcel();
+  }
+
+  @action
+  async putFromEvent(data: ProductDto) {
+    console.log(data);
+    if (this.products.items.some(x => x.id === data.id)) {
+      this.products.items.forEach((value, index) => {
+        if (value.id === data.id) this.products.items[index] = data;
+        console.log('some');
+      });
+    } else {
+      this.products.items.push(data);
+    }
+    this.counter = this.counter + 1;
+  }
+
+  @action
+  async deleteFromEvent(data: ProductDto) {
+    console.log(data);
+    if (this.products.items.some(x => x.id === data.id)) {
+      this.products.items.forEach((value, index) => {
+        if (value.id === data.id) this.products.items.splice(index, 1);
+        console.log('some');
+      });
+    }
+
+    this.counter = this.counter + 1;
   }
 }
 

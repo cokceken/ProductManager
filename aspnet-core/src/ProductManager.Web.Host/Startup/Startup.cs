@@ -111,7 +111,6 @@ namespace ProductManager.Web.Host.Startup
             app.UseAuthentication();
 
             app.UseAbpRequestLocalization();
-
           
             app.UseEndpoints(endpoints =>
             {

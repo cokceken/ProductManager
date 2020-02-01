@@ -7,6 +7,7 @@ import SessionStore from './stores/sessionStore';
 import SignalRAspNetCoreHelper from './lib/signalRAspNetCoreHelper';
 import Stores from './stores/storeIdentifier';
 import { inject } from 'mobx-react';
+import NotificationDistributor from './utils/NotificationDistributor';
 
 export interface IAppProps {
   sessionStore?: SessionStore;
@@ -20,6 +21,7 @@ class App extends React.Component<IAppProps> {
     if (!!this.props.sessionStore!.currentLogin.user && this.props.sessionStore!.currentLogin.application.features['SignalR']) {
       if (this.props.sessionStore!.currentLogin.application.features['SignalR.AspNetCore']) {
         SignalRAspNetCoreHelper.initSignalR();
+        NotificationDistributor.Initialize();
       }
     }
   }

@@ -17,6 +17,10 @@ namespace ProductManager.Sessions
                     Version = AppVersionHelper.Version,
                     ReleaseDate = AppVersionHelper.ReleaseDate,
                     Features = new Dictionary<string, bool>()
+                    {
+                        {"SignalR", true},
+                        {"SignalR.AspNetCore", true}
+                    }
                 }
             };
 
