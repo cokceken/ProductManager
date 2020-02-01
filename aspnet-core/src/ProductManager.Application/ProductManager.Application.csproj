@@ -16,4 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ProductManager.Core\ProductManager.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BackgroundJobs\" />
+  </ItemGroup>
 </Project>

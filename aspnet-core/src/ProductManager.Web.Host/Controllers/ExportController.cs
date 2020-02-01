@@ -8,6 +8,8 @@ using ProductManager.WebHelpers;
 
 namespace ProductManager.Web.Host.Controllers
 {
+
+    [Route("/api/Export")]
     public class ExportController : ProductManagerControllerBase
     {
         private readonly IProductAppService _productAppService;
@@ -20,6 +22,7 @@ namespace ProductManager.Web.Host.Controllers
         }
 
         [HttpGet]
+        [Route("ExportProductsToExcel")]
         public async Task<IActionResult> ExportProductsToExcel()
         {
             var items = await _productAppService.GetAllAsync(new PagedProductResultRequestDto());

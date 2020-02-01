@@ -31,7 +31,7 @@ class ProductService {
   }
 
   public async getAllAsExcel() {
-    return await http.get('export/ExportProductsToExcel', { responseType: 'blob'});
+    return await http.get('api/export/ExportProductsToExcel', { responseType: 'blob'});
   }
 }
 

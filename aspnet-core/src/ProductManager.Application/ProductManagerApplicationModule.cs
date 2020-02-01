@@ -1,7 +1,9 @@
 ﻿using Abp.AutoMapper;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
+using Abp.Threading.BackgroundWorkers;
 using ProductManager.Authorization;
+using ProductManager.BackgroundWorkers;
 
 namespace ProductManager
 {
@@ -25,6 +27,12 @@ namespace ProductManager
                 // Scan the assembly for classes which inherit from AutoMapper.Profile
                 cfg => cfg.AddMaps(thisAssembly)
             );
+        }
+
+        public override void PostInitialize()
+        {
+            var workManager = IocManager.Resolve<IBackgroundWorkerManager>();
+            workManager.Add(IocManager.Resolve<RemoveUnusedProductPhotos>());
         }
     }
 }

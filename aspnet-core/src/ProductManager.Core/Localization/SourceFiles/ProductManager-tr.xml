@@ -98,5 +98,12 @@
     <text name="PriceConfirmLabel">Fiyat çok yüksek, devam etmek istiyor musunuz?</text>
     <text name="ProductCodeDuplicate">Ürün kodu kullanımda!</text>
     <text name="ActionError">İşlem başarısız</text>
+    <text name="IsDeleted">Silindi mi</text>
+    <text name="DeletionTime">Silinme zamanı</text>
+    <text name="deleterUserId">Silen kullanıcı id</text>
+    <text name="lastModificationTime">En son değiştirilme zamanı</text>
+    <text name="lastModifierUserId">Last modifier user id</text>
+    <text name="creationTime">Creation time</text>
+    <text name="creatorUserId">Creator user id</text>
   </texts>
 </localizationDictionary>

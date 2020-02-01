@@ -116,5 +116,12 @@
     <text name="PriceConfirmLabel">Price is too high, do you want to continue?</text>
     <text name="ProductCodeDuplicate">Product code already exists!</text>
     <text name="ActionError">Action failed</text>
+    <text name="IsDeleted">Is deleted</text>
+    <text name="DeletionTime">Deletion time</text>
+    <text name="deleterUserId">Deleter user id</text>
+    <text name="lastModificationTime">Last modification time</text>
+    <text name="lastModifierUserId">Last modifier user id</text>
+    <text name="creationTime">Creation time</text>
+    <text name="creatorUserId">Creator user id</text>
   </texts>
 </localizationDictionary>

@@ -99,7 +99,7 @@ class CreateOrUpdateProduct extends React.Component<ICreateOrUpdateProductProps>
                   beforeUpload={this.beforeImageUpload}
                   onError={this.onImageUploadError}
                   onSuccess={this.onImageUploadSuccess}
-                  action={process.env.REACT_APP_REMOTE_SERVICE_BASE_URL + '/Image/CreateImage'}
+                  action={process.env.REACT_APP_REMOTE_SERVICE_BASE_URL + '/api/Image/CreateImage'}
                   imageUrl={productPhotoUrl}
                   imageLoading={this.state.imageLoading}
                 />

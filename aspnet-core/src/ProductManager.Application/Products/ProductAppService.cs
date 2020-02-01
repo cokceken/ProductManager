@@ -45,7 +45,7 @@ namespace ProductManager.Products
 
         private bool CheckDuplicateProductCode(string productCode, int id = -1)
         {
-            return Repository.GetAll().Any(x => x.Code == productCode && x.Id != id);
+            return Repository.GetAll().Any(x => x.Code == productCode && x.Id != id && x.IsDeleted == false);
         }
     }
 }

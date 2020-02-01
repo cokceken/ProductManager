@@ -161,6 +161,31 @@ class Product extends AppComponentBase<IProductProps, IProductState> {
         render: (text: number) => <div>{text}</div>,
       },
       {
+        title: L('Details'),
+        width: 80,
+        render: (text: string, item: any) => (
+          <div>
+            <Dropdown
+              trigger={['click']}
+              overlay={
+                <Menu>
+                  <Menu.Item>{L("IsDeleted") + ": " + L(item.isDeleted)}</Menu.Item>
+                  <Menu.Item>{L("DeletionTime") + ": " + item.deletionTime}</Menu.Item>
+                  <Menu.Item>{L("deleterUserId") + ": " + item.deleterUserId}</Menu.Item>
+                  <Menu.Item>{L("lastModificationTime") + ": " + item.lastModificationTime}</Menu.Item>
+                  <Menu.Item>{L("lastModifierUserId") + ": " + item.lastModifierUserId}</Menu.Item>
+                  <Menu.Item>{L("creationTime") + ": " + item.creationTime}</Menu.Item>
+                  <Menu.Item>{L("creatorUserId") + ": " + item.creatorUserId}</Menu.Item>
+                </Menu>
+              }
+              placement="bottomLeft"
+            >
+              <Button type="dashed" icon="info-circle"/>
+            </Dropdown>
+          </div>
+        ),
+      },
+      {
         title: L('Actions'),
         width: 150,
         render: (text: string, item: any) => (

@@ -8,6 +8,7 @@ using ProductManager.Web.Host.Dto;
 
 namespace ProductManager.Web.Host.Controllers
 {
+    [Route("/api/Image")]
     public class ImageController : ProductManagerControllerBase
     {
         public static IWebHostEnvironment Environment;
@@ -18,6 +19,7 @@ namespace ProductManager.Web.Host.Controllers
         }
 
         [HttpPost]
+        [Route("CreateImage")]
         public async Task<CreateImageResponse> CreateImage(CreateImageRequest request)
         {
             if (!Directory.Exists(Environment.WebRootPath + "\\uploads\\"))
