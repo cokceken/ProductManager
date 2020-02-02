@@ -27,53 +27,54 @@ A simple single page react application with .net core backend to manage one doma
     Default user is: 
         username: admin
         password: 123qwe
-##Getting Started to the Front-End
+        
+## Getting Started to the Front-End
     The front-end is build on react. And should be compile using npm.
     
-```sh
-cd reactjs
-npm install 
-```
+    ```sh
+    cd reactjs
+    npm install 
+    ```
 
-And then start
+    And then start
 
-```
-npm start
-```
-##Endpoint Configuration
+    ```
+    npm start
+    ```
+## Endpoint Configuration
     Endpoints should be configured within the project environment variables.
 ![](screenshots/envVariables.png) 
-#Features
-##Aspect Oriented Validation
+# Features
+## Aspect Oriented Validation
     All validation is managed with aspect oriented approach, so all dto's contains 
     their own validation pattern.
 ![](screenshots/aspect.png)    
-##Localization
+## Localization
     Localized labels are managed and presented by the back-end. The files are within 
     \aspnet-core\src\ProductManager.Core\Localization\SourceFiles directory. And can be managed 
     for different languages.
 ![](screenshots/language.png)
-##Unit Tests
+## Unit Tests
     Unit tests are written for the product application service for some business rules.
 ![](screenshots/unitTest.png)
-##Excel Export
+## Excel Export
     All products within product page can be downloaded as excel
 ![](screenshots/excelButton.png)
 ![](screenshots/excelResult.png)
-##SignalR Integration
+## SignalR Integration
     SignalR is integrated for real time sharing between users. When some product is created/edited/deleted, 
     other users see it in a reasonable time period.
 ![](screenshots/signalr.png)
-##Photo Upload
+## Photo Upload
     Photo upload is managed with a specific api to upload photos and the reference is saved for the product.
     Each different photo get's uploaded to the public folder and can be accessible within the network.
 ![](screenshots/uploadsFolder.png)
-##Background Worker for Not Used Photos
+## Background Worker for Not Used Photos
     Photos without any reference from a product is deleted each minute using a background worker.
-##Confirmation Box
+## Confirmation Box
     A confirmation pop-ups each time a product's price is too high. Confirmation box is localized.
 ![](screenshots/price.png)
-##Details on Products
+## Details on Products
     Each audit detail is visible(and managable) for the products. Each information get's updated with 
     the related operations. Also, each produt get's deleted softly, database record stays.
 ![](screenshots/details.png)
