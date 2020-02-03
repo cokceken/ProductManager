@@ -1,10 +1,10 @@
 # ProductManager
 A simple single page react application with .net core backend to manage one domain entity while sharing changes on the database simultaneously using signalr
 
-##Getting Started to the Back-End
-###Asp.net Boilerplate
+## Getting Started to the Back-End
+### Asp.net Boilerplate
     This porject is build on asp.net boilerplate project. https://aspnetboilerplate.com/
-###.Net Core Backend
+### .Net Core Backend
     The back-end is build on .net core. And the related solution is under aspnet-core folder.
 ### Code-first Database Creation
     In order to be able to use the system, an ef-core Update-Database command 
